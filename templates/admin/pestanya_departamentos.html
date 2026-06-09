@@ -1,0 +1,116 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-primary fw-bold m-0">
+        <i class="bi bi-building-gear me-2"></i>Gestión de Departamentos
+    </h4>
+    <button type="button" class="btn btn-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalCrearDepartamento">
+        <i class="bi bi-plus-circle me-1"></i> Nuevo Departamento
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th class="ps-3">ID</th>
+                <th>Nombre del Departamento</th>
+                <th>Edificio / Ubicación</th>
+                <th class="text-end pe-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for depto in departamentos %}
+            <tr>
+                <td class="ps-3 text-secondary fw-bold">#{{ depto.id }}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                            <i class="bi bi-building text-primary"></i>
+                        </div>
+                        <span class="fw-bold text-dark">{{ depto.nombre }}</span>
+                    </div>
+                </td>
+                <td>
+                    <i class="bi bi-geo-alt text-muted me-1"></i>{{ depto.edificio }}
+                </td>
+                <td class="text-end pe-3">
+                    <button type="button" class="btn btn-sm btn-outline-warning border-0" title="Editar Departamento" data-bs-toggle="modal" data-bs-target="#modalEditarDepartamento{{ depto.id }}">
+                        <i class="bi bi-pencil-square fs-5"></i>
+                    </button>
+                    
+                    <form action="{{ url_for('administrador.eliminar_departamento', id_departamento=depto.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Eliminar Departamento" onclick="return confirm('¿Estás seguro de eliminar el departamento de {{ depto.nombre }}?')">
+                            <i class="bi bi-trash3 fs-5"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+            <div class="modal fade" id="modalEditarDepartamento{{ depto.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content border-0 shadow">
+                  <div class="modal-header bg-warning text-dark border-0">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Departamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form action="{{ url_for('administrador.editar_departamento', id_departamento=depto.id) }}" method="POST">
+                      <div class="modal-body text-start bg-light">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-secondary">Nombre del Departamento</label>
+                              <div class="input-group">
+                                  <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                  <input type="text" class="form-control" name="nombre" value="{{ depto.nombre }}" required>
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-secondary">Edificio / Ubicación</label>
+                              <div class="input-group">
+                                  <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                  <input type="text" class="form-control" name="edificio" value="{{ depto.edificio }}" required>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning fw-bold text-dark"><i class="bi bi-save me-1"></i> Guardar Cambios</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalCrearDepartamento" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-success text-white border-0">
+        <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>Añadir Nuevo Departamento</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ url_for('administrador.crear_departamento') }}" method="POST">
+          <div class="modal-body text-start bg-light">
+              <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary">Nombre del Departamento</label>
+                  <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-building"></i></span>
+                      <input type="text" class="form-control" name="nombre" placeholder="Ej: Soporte Técnico" required>
+                  </div>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary">Edificio / Ubicación</label>
+                  <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                      <input type="text" class="form-control" name="edificio" placeholder="Ej: Planta 2, Ala Sur" required>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success fw-bold"><i class="bi bi-check-lg me-1"></i> Crear Departamento</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>

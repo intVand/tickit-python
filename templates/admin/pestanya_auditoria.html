@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-danger fw-bold m-0">
+        <i class="bi bi-terminal-fill me-2"></i>Registro de Actividad del Sistema
+    </h4>
+    <span class="badge bg-dark shadow-sm px-3 py-2">
+        <i class="bi bi-clock-history me-1"></i> Últimos 50 eventos
+    </span>
+</div>
+
+<div class="bg-dark text-success p-4 rounded-4 shadow-lg" 
+     style="height: 450px; overflow-y: auto; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.85rem; border: 1px solid #333;">
+    
+    {% if logs %}
+        {% for linea in logs %}
+            <div class="py-1 border-bottom border-secondary border-opacity-10 d-flex align-items-start">
+                <span class="text-secondary me-2">user@tickit:~$</span>
+                <span class="text-light">{{ linea | trim }}</span>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-muted text-center mt-5">
+            <i class="bi bi-slash-circle fs-1 d-block mb-2"></i>
+            No hay eventos registrados en el sistema.
+        </div>
+    {% endif %}
+</div>
+
+<div class="mt-3 d-flex justify-content-between align-items-center">
+    <div class="text-muted small">
+        <i class="bi bi-hdd-fill me-1"></i> Archivo: <code>auditoria.log</code>
+    </div>
+    <div class="text-muted small">
+        <i class="bi bi-shield-lock-fill me-1"></i> Sistema de Auditoría Activo
+    </div>
+</div>

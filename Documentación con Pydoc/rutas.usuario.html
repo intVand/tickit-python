@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module rutas.usuario</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="rutas.html" class="white">rutas</a>.usuario</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Civanb%5Cdesktop%5Cespecialidad%20python%5Cprogramaci%C3%B3n%20orientada%20a%20objetos%5Cproyecto%203.3%20-%203.4%20-%203.5%5Cproyecto%20final%20poo%202%5Ctickit%5Crutas%5Cusuario.py">c:\users\ivanb\desktop\especialidad python\programación orientada a objetos\proyecto 3.3 - 3.4 - 3.5\proyecto final poo 2\tickit\rutas\usuario.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;de&nbsp;rutas&nbsp;para&nbsp;la&nbsp;gestión&nbsp;de&nbsp;usuarios&nbsp;y&nbsp;accesos&nbsp;en&nbsp;Tickit.<br>
+&nbsp;<br>
+En&nbsp;este&nbsp;fichero&nbsp;he&nbsp;centralizado&nbsp;el&nbsp;controlador&nbsp;que&nbsp;maneja&nbsp;la&nbsp;autenticación,<br>
+el&nbsp;registro&nbsp;de&nbsp;nuevas&nbsp;cuentas,&nbsp;la&nbsp;actualización&nbsp;del&nbsp;perfil&nbsp;y&nbsp;la&nbsp;baja&nbsp;de&nbsp;usuarios.<br>
+Se&nbsp;coordina&nbsp;la&nbsp;seguridad&nbsp;del&nbsp;lado&nbsp;del&nbsp;servidor&nbsp;mediante&nbsp;hashes&nbsp;y&nbsp;sesiones.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="re.html">re</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-cerrar_sesion"><strong>cerrar_sesion</strong></a>()</dt><dd><span class="code">Se&nbsp;destruye&nbsp;la&nbsp;sesión&nbsp;del&nbsp;cliente&nbsp;para&nbsp;salir&nbsp;de&nbsp;la&nbsp;aplicación&nbsp;de&nbsp;forma&nbsp;segura.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;formulario&nbsp;de&nbsp;acceso.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-eliminar_mi_cuenta"><strong>eliminar_mi_cuenta</strong></a>()</dt><dd><span class="code">Se&nbsp;tramita&nbsp;la&nbsp;baja&nbsp;definitiva&nbsp;del&nbsp;usuario&nbsp;del&nbsp;sistema.<br>
+&nbsp;<br>
+Se&nbsp;bloquea&nbsp;la&nbsp;acción&nbsp;para&nbsp;administradores&nbsp;y&nbsp;se&nbsp;ejecuta&nbsp;la&nbsp;eliminación.<br>
+Los&nbsp;registros&nbsp;vinculados&nbsp;en&nbsp;otras&nbsp;tablas&nbsp;se&nbsp;eliminan&nbsp;por&nbsp;cascada&nbsp;en&nbsp;la&nbsp;BD.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;a&nbsp;la&nbsp;landing&nbsp;page&nbsp;tras&nbsp;limpiar&nbsp;la&nbsp;sesión&nbsp;del&nbsp;navegador.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-index"><strong>index</strong></a>()</dt><dd><span class="code">Se&nbsp;renderiza&nbsp;la&nbsp;página&nbsp;de&nbsp;presentación&nbsp;o&nbsp;Landing&nbsp;Page&nbsp;del&nbsp;proyecto.<br>
+&nbsp;<br>
+:return:&nbsp;Plantilla&nbsp;HTML&nbsp;estática&nbsp;de&nbsp;bienvenida.<br>
+:rtype:&nbsp;str</span></dd></dl>
+ <dl><dt><a name="-login"><strong>login</strong></a>()</dt><dd><span class="code">Se&nbsp;gestiona&nbsp;el&nbsp;acceso&nbsp;de&nbsp;los&nbsp;usuarios&nbsp;al&nbsp;sistema&nbsp;web.<br>
+&nbsp;<br>
+Si&nbsp;la&nbsp;petición&nbsp;es&nbsp;POST,&nbsp;se&nbsp;capturan&nbsp;y&nbsp;limpian&nbsp;las&nbsp;credenciales,&nbsp;se&nbsp;valida<br>
+que&nbsp;no&nbsp;haya&nbsp;campos&nbsp;vacíos&nbsp;y&nbsp;se&nbsp;contrasta&nbsp;la&nbsp;contraseña&nbsp;en&nbsp;texto&nbsp;plano<br>
+contra&nbsp;el&nbsp;hash&nbsp;almacenado&nbsp;de&nbsp;manera&nbsp;segura&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;o&nbsp;renderizado&nbsp;del&nbsp;formulario&nbsp;de&nbsp;acceso.<br>
+:rtype:&nbsp;str&nbsp;o&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-perfil"><strong>perfil</strong></a>()</dt><dd><span class="code">Se&nbsp;gestiona&nbsp;la&nbsp;visualización&nbsp;y&nbsp;actualización&nbsp;de&nbsp;los&nbsp;datos&nbsp;del&nbsp;propio&nbsp;usuario.<br>
+&nbsp;<br>
+Permite&nbsp;cambiar&nbsp;el&nbsp;nombre&nbsp;y&nbsp;la&nbsp;contraseña&nbsp;actual.&nbsp;Si&nbsp;la&nbsp;contraseña&nbsp;se&nbsp;<br>
+envía&nbsp;vacía,&nbsp;el&nbsp;sistema&nbsp;inteligentemente&nbsp;actualiza&nbsp;solo&nbsp;el&nbsp;campo&nbsp;del&nbsp;nombre.<br>
+&nbsp;<br>
+:return:&nbsp;Plantilla&nbsp;HTML&nbsp;de&nbsp;configuración&nbsp;de&nbsp;perfil&nbsp;con&nbsp;los&nbsp;datos&nbsp;del&nbsp;usuario.<br>
+:rtype:&nbsp;str&nbsp;o&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-registro"><strong>registro</strong></a>()</dt><dd><span class="code">Se&nbsp;procesa&nbsp;el&nbsp;alta&nbsp;de&nbsp;nuevas&nbsp;cuentas&nbsp;de&nbsp;usuario&nbsp;en&nbsp;el&nbsp;sistema.<br>
+&nbsp;<br>
+Se&nbsp;encadena&nbsp;las&nbsp;tres&nbsp;funciones&nbsp;de&nbsp;validación.&nbsp;<br>
+Si&nbsp;todas&nbsp;pasan,&nbsp;se&nbsp;encripta&nbsp;la&nbsp;contraseña&nbsp;utilizando&nbsp;<br>
+algoritmos&nbsp;de&nbsp;hashing&nbsp;y&nbsp;se&nbsp;persiste&nbsp;el&nbsp;registro&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;a&nbsp;la&nbsp;pantalla&nbsp;de&nbsp;login&nbsp;o&nbsp;renderizado&nbsp;del&nbsp;formulario.<br>
+:rtype:&nbsp;str&nbsp;o&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>usuario_bp</strong> = &lt;Blueprint 'usuario'&gt;</td></tr></table>
+</body></html>

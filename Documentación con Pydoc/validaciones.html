@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module validaciones</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">validaciones</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Civanb%5Cdesktop%5Cespecialidad%20python%5Cprogramaci%C3%B3n%20orientada%20a%20objetos%5Cproyecto%203.3%20-%203.4%20-%203.5%5Cproyecto%20final%20poo%202%5Ctickit%5Cvalidaciones.py">c:\users\ivanb\desktop\especialidad python\programación orientada a objetos\proyecto 3.3 - 3.4 - 3.5\proyecto final poo 2\tickit\validaciones.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;de&nbsp;validaciones&nbsp;lógicas&nbsp;del&nbsp;sistema.<br>
+&nbsp;<br>
+En&nbsp;este&nbsp;fichero&nbsp;he&nbsp;centralizado&nbsp;todas&nbsp;las&nbsp;funciones&nbsp;encargadas&nbsp;de&nbsp;verificar<br>
+que&nbsp;los&nbsp;datos&nbsp;introducidos&nbsp;por&nbsp;el&nbsp;usuario&nbsp;cumplen&nbsp;con&nbsp;los&nbsp;requisitos&nbsp;mínimos<br>
+de&nbsp;seguridad&nbsp;y&nbsp;formato&nbsp;antes&nbsp;de&nbsp;ser&nbsp;procesados&nbsp;por&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="re.html">re</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-validar_campos_vacios"><strong>validar_campos_vacios</strong></a>(*campos)</dt><dd><span class="code">Comprueba&nbsp;si&nbsp;alguno&nbsp;de&nbsp;los&nbsp;campos&nbsp;de&nbsp;texto&nbsp;está&nbsp;vacío&nbsp;o&nbsp;solo&nbsp;contiene&nbsp;espacios.<br>
+&nbsp;<br>
+:param&nbsp;campos:&nbsp;Número&nbsp;variable&nbsp;de&nbsp;cadenas&nbsp;de&nbsp;texto&nbsp;a&nbsp;comprobar.<br>
+:type&nbsp;campos:&nbsp;tuple&nbsp;de&nbsp;str<br>
+:return:&nbsp;True&nbsp;si&nbsp;todos&nbsp;los&nbsp;campos&nbsp;tienen&nbsp;contenido&nbsp;válido,&nbsp;False&nbsp;si&nbsp;alguno&nbsp;está&nbsp;vacío.<br>
+:rtype:&nbsp;bool</span></dd></dl>
+ <dl><dt><a name="-validar_formato_email"><strong>validar_formato_email</strong></a>(email)</dt><dd><span class="code">Verifica&nbsp;que&nbsp;una&nbsp;cadena&nbsp;de&nbsp;texto&nbsp;tenga&nbsp;el&nbsp;formato&nbsp;de&nbsp;un&nbsp;correo&nbsp;electrónico&nbsp;válido.<br>
+&nbsp;<br>
+:param&nbsp;email:&nbsp;La&nbsp;dirección&nbsp;de&nbsp;correo&nbsp;a&nbsp;validar.<br>
+:type&nbsp;email:&nbsp;str<br>
+:return:&nbsp;True&nbsp;si&nbsp;el&nbsp;formato&nbsp;es&nbsp;correcto,&nbsp;False&nbsp;en&nbsp;caso&nbsp;contrario&nbsp;o&nbsp;si&nbsp;está&nbsp;vacío.<br>
+:rtype:&nbsp;bool<br>
+:raises&nbsp;TypeError:&nbsp;si&nbsp;'email'&nbsp;no&nbsp;es&nbsp;una&nbsp;cadena&nbsp;de&nbsp;texto.</span></dd></dl>
+ <dl><dt><a name="-validar_longitud_contrasenya"><strong>validar_longitud_contrasenya</strong></a>(contrasenya, longitud_minima=8)</dt><dd><span class="code">Comprueba&nbsp;que&nbsp;la&nbsp;contraseña&nbsp;cumpla&nbsp;con&nbsp;la&nbsp;longitud&nbsp;mínima&nbsp;requerida.<br>
+&nbsp;<br>
+:param&nbsp;contrasenya:&nbsp;La&nbsp;contraseña&nbsp;a&nbsp;validar.<br>
+:type&nbsp;contrasenya:&nbsp;str<br>
+:param&nbsp;longitud_minima:&nbsp;Longitud&nbsp;mínima&nbsp;exigida&nbsp;(por&nbsp;defecto&nbsp;8).<br>
+:type&nbsp;longitud_minima:&nbsp;int<br>
+:return:&nbsp;True&nbsp;si&nbsp;la&nbsp;longitud&nbsp;es&nbsp;válida,&nbsp;False&nbsp;en&nbsp;caso&nbsp;contrario.<br>
+:rtype:&nbsp;bool<br>
+:raises&nbsp;TypeError:&nbsp;si&nbsp;'contrasenya'&nbsp;no&nbsp;es&nbsp;una&nbsp;cadena&nbsp;de&nbsp;texto.</span></dd></dl>
+</td></tr></table>
+</body></html>

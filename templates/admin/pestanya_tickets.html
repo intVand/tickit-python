@@ -1,0 +1,190 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-primary fw-bold m-0"><i class="bi bi- flower1 me-2"></i>Gestión Avanzada de Tickets</h4>
+    
+    <div class="btn-group shadow-sm" role="group">
+        <a href="{{ url_for('administrador.exportar_tickets_txt') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-file-earmark-text me-1"></i> Exportar TXT
+        </a>
+        <a href="{{ url_for('administrador.exportar_tickets_json') }}" class="btn btn-outline-dark btn-sm">
+            <i class="bi bi-filetype-json me-1"></i> Exportar JSON
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle" style="font-size: 0.9rem;">
+        <thead class="table-dark">
+            <tr>
+                <th class="ps-3">ID</th>
+                <th>Fechas</th>
+                <th>Creador / Depto</th>
+                <th>Título</th>
+                <th>Técnico Asignado</th>
+                <th>Estado</th>
+                <th class="text-end pe-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td class="ps-3"><strong>#{{ ticket.id }}</strong></td>
+                <td>
+                    <small class="d-block text-muted" title="Fecha de Creación">
+                        <i class="bi bi-calendar-plus me-1"></i>{{ ticket.fecha_creacion.strftime('%d/%m/%Y') }}
+                    </small>
+                    {% if ticket.fecha_resolucion %}
+                    <small class="d-block text-success" title="Fecha de Resolución">
+                        <i class="bi bi-calendar-check me-1"></i>{{ ticket.fecha_resolucion.strftime('%d/%m/%Y') }}
+                    </small>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="d-block fw-bold">{{ ticket.creador }}</span>
+                    <span class="badge bg-light text-dark border small">{{ ticket.departamento }}</span>
+                </td>
+                <td>
+                    <span class="text-dark fw-medium">{{ ticket.titulo }}</span>
+                </td>
+                <td>
+                    {% if ticket.tecnico_asignado %}
+                        <span class="badge bg-info text-dark shadow-sm">
+                            <i class="bi bi-person-badge me-1"></i>{{ ticket.tecnico_asignado }}
+                        </span>
+                    {% else %}
+                        <span class="text-muted small italic"><i class="bi bi-dash-circle me-1"></i>Sin asignar</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="{{ url_for('administrador.actualizar_estado_ticket', id_ticket=ticket.id) }}" method="POST">
+                        <select name="estado" class="form-select form-select-sm fw-bold {% if ticket.estado == 'Pendiente' %}text-danger{% elif ticket.estado == 'En Progreso' %}text-warning{% else %}text-success{% endif %}" 
+                                style="width: 135px;" onchange="this.form.submit()">
+                            <option value="Pendiente" {% if ticket.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+                            <option value="En Progreso" {% if ticket.estado == 'En Progreso' %}selected{% endif %}>En Progreso</option>
+                            <option value="Resuelto" {% if ticket.estado == 'Resuelto' %}selected{% endif %}>Resuelto</option>
+                        </select>
+                    </form>
+                </td>
+                <td class="text-end pe-3">
+                    <button class="btn btn-sm btn-outline-primary border-0" title="Ver Detalles" data-bs-toggle="modal" data-bs-target="#modalVerAdmin{{ ticket.id }}">
+                        <i class="bi bi-eye fs-5"></i>
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-warning border-0" title="Editar Ticket" data-bs-toggle="modal" data-bs-target="#modalEditarAdmin{{ ticket.id }}">
+                        <i class="bi bi-pencil-square fs-5"></i>
+                    </button>
+
+                    <form action="{{ url_for('administrador.eliminar_ticket_admin', id_ticket=ticket.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Eliminar Ticket" onclick="return confirm('¿Seguro que deseas borrar el ticket #{{ ticket.id }}?')">
+                            <i class="bi bi-trash3 fs-5"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+            <div class="modal fade" id="modalVerAdmin{{ ticket.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content border-0 shadow">
+                        <div class="modal-header bg-primary text-white border-0">
+                            <h5 class="modal-title fw-bold"><i class="bi bi-search me-2"></i>Inspección de Ticket #{{ ticket.id }}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body bg-light text-start">
+                            <div class="mb-3">
+                                <label class="small text-muted d-block">Título</label>
+                                <h5 class="fw-bold">{{ ticket.titulo }}</h5>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label class="small text-muted d-block">Creado por</label>
+                                    <span>{{ ticket.creador }}</span>
+                                </div>
+                                <div class="col-6">
+                                    <label class="small text-muted d-block">Departamento</label>
+                                    <span>{{ ticket.departamento }}</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <label class="small text-muted d-block mb-1">Descripción de la incidencia</label>
+                                <div class="bg-white p-3 rounded border" style="white-space: pre-wrap;">{{ ticket.descripcion }}</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 bg-light">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalEditarAdmin{{ ticket.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content border-0 shadow">
+                  <div class="modal-header bg-warning text-dark border-0">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Edición Administrativa #{{ ticket.id }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form action="{{ url_for('administrador.editar_ticket_admin', id_ticket=ticket.id) }}" method="POST">
+                      <div class="modal-body text-start bg-light">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">Título</label>
+                              <input type="text" class="form-control" name="titulo" value="{{ ticket.titulo }}" required>
+                          </div>
+                          
+                          <div class="row">
+                              <div class="col-md-6 mb-3">
+                                  <label class="form-label fw-bold">Departamento</label>
+                                  <select class="form-select" name="id_departamento" required>
+                                      {% for depto in departamentos %}
+                                          <option value="{{ depto.id }}" {% if depto.id == ticket.id_departamento %}selected{% endif %}>{{ depto.nombre }}</option>
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                  <label class="form-label fw-bold">Estado</label>
+                                  <select class="form-select" name="estado" id="estado_modal_{{ ticket.id }}" onchange="toggleTecnico('{{ ticket.id }}')" required>
+                                      <option value="Pendiente" {% if ticket.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+                                      <option value="En Progreso" {% if ticket.estado == 'En Progreso' %}selected{% endif %}>En Progreso</option>
+                                      <option value="Resuelto" {% if ticket.estado == 'Resuelto' %}selected{% endif %}>Resuelto</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                            <div class="mb-3 {% if ticket.estado == 'Pendiente' %}d-none{% endif %}" id="div_tecnico_{{ ticket.id }}">
+                              <label class="form-label fw-bold">Asignar Técnico Responsable</label>
+                              <select class="form-select border-primary" name="id_tecnico">
+                                  {% for tec in tecnicos %}
+                                      <option value="{{ tec.id }}" 
+                                          {% if ticket.id_tecnico_asignado == tec.id %}selected
+                                          {% elif not ticket.id_tecnico_asignado and tec.id == session['usuario_id'] %}selected{% endif %}>
+                                          {{ tec.nombre }}
+                                      </option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">Descripción original</label>
+                              <textarea class="form-control" name="descripcion" rows="4" required>{{ ticket.descripcion }}</textarea>
+                          </div>
+                      </div>
+                      <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning fw-bold text-dark"><i class="bi bi-save me-1"></i> Aplicar Cambios</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function toggleTecnico(ticketId) {
+        var estado = document.getElementById('estado_modal_' + ticketId).value;
+        var divTecnico = document.getElementById('div_tecnico_' + ticketId);
+        if (estado === 'Pendiente') { divTecnico.classList.add('d-none'); } 
+        else { divTecnico.classList.remove('d-none'); }
+    }
+</script>

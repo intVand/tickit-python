@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tickit{% endblock %}</title>
+    
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-icons.css') }}" rel="stylesheet">
+
+    <link rel="icon" href="{{ url_for('static', filename='css/img/favicon.svg') }}" type="image/svg+xml">
+    
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="{{ url_for('usuario.index') }}">
+                <i class="bi bi-ticket me-2"></i>Tickit
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="menuNavegacion">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    {% if 'usuario_id' in session %}
+                        <li class="nav-item me-3 text-light d-none d-lg-block">
+                            <span class="text-muted small">Conectado como:</span> <br>
+                            <i class="bi bi-person-circle"></i> <strong>{{ session['usuario_nombre'] }}</strong>
+                        </li>
+                        
+                        {% if session['usuario_rol'] == 1 %}
+                            <li class="nav-item">
+                                <a href="{{ url_for('administrador.panel_administrador') }}" class="btn btn-warning btn-sm text-dark fw-bold">
+                                    <i class="bi bi-shield-lock-fill"></i> Panel Admin
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="nav-item">
+                            <a href="{{ url_for('tickets.panel_control') }}" class="btn btn-outline-light btn-sm">
+                                <i class="bi bi-ticket-detailed"></i> Mis Tickets
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="{{ url_for('usuario.perfil') }}" class="btn btn-info btn-sm text-white">
+                                <i class="bi bi-gear-fill"></i> Mi Perfil
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="{{ url_for('usuario.cerrar_sesion') }}" class="btn btn-danger btn-sm">
+                                <i class="bi bi-box-arrow-right"></i> Salir
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('usuario.login') }}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('usuario.registro') }}" class="btn btn-outline-light btn-sm">
+                                <i class="bi bi-person-plus-fill"></i> Registrarse
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="container my-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-auto border-top border-primary border-3">
+        <div class="container">
+            <div class="row text-center text-md-start align-items-center">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-primary fw-bold mb-0"><i class="bi bi-ticket"></i> Tickit</h5>
+                    <small>Sistema de Tickets para Soporte Técnico</small>
+                </div>
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <span class="small">&copy; 2026 Proyecto Tickit. Iván Bonmatí Baeza.</span>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3"><i class="bi bi-github fs-5"></i></a>
+                    <a href="#" class="text-light text-decoration-none"><i class="bi bi-envelope-fill fs-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

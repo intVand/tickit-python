@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+{% block title %}Tickit - Mis Tickets{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+    <h2 class="text-primary fw-bold m-0">
+        <i class="bi bi-ticket-detailed me-2"></i>Mis Tickets de Soporte
+    </h2>
+    
+    <div class="d-flex gap-2">
+        <div class="btn-group d-none d-md-flex shadow-sm" role="group">
+            <a href="{{ url_for('tickets.exportar_mis_tickets_txt') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-file-text-fill me-1"></i>TXT
+            </a>
+            <a href="{{ url_for('tickets.exportar_mis_tickets_json') }}" class="btn btn-outline-dark">
+                <i class="bi bi-filetype-json me-1"></i>JSON
+            </a>
+        </div>
+        
+        <button type="button" class="btn btn-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalCrearTicket">
+            <i class="bi bi-plus-circle me-1"></i> Nuevo Ticket
+        </button>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" style="font-size: 0.95rem;">
+            <thead class="table-dark">
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Detalles del Problema</th>
+                    <th>Estado y Técnico</th>
+                    <th>Fechas</th>
+                    <th class="text-end pe-4">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if tickets %}
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td class="ps-4 fw-bold text-secondary">#{{ ticket.id }}</td>
+                        <td>
+                            <strong class="text-dark">{{ ticket.titulo }}</strong><br>
+                            <span class="badge bg-light text-dark border"><i class="bi bi-building me-1"></i>{{ ticket.departamento }}</span>
+                        </td>
+                        <td>
+                            {% if ticket.estado == 'Pendiente' %}
+                                <span class="badge bg-danger rounded-pill"><i class="bi bi-exclamation-circle me-1"></i>Pendiente</span>
+                            {% elif ticket.estado == 'En Progreso' %}
+                                <span class="badge bg-warning text-dark rounded-pill"><i class="bi bi-hourglass-split me-1"></i>En Progreso</span>
+                            {% else %}
+                                <span class="badge bg-success rounded-pill"><i class="bi bi-check-circle me-1"></i>Resuelto</span>
+                            {% endif %}
+                            
+                            <br>
+                            <small class="text-muted">
+                                <i class="bi bi-person-badge me-1"></i>
+                                {% if ticket.tecnico_asignado %}
+                                    {{ ticket.tecnico_asignado }}
+                                {% else %}
+                                    Sin asignar
+                                {% endif %}
+                            </small>
+                        </td>
+                        <td>
+                            <small class="d-block text-muted" title="Fecha de Creación">
+                                <i class="bi bi-calendar-plus me-1"></i>{{ ticket.fecha_creacion.strftime('%d/%m/%Y') }}
+                            </small>
+                            {% if ticket.fecha_resolucion %}
+                            <small class="d-block text-success" title="Fecha de Resolución">
+                                <i class="bi bi-calendar-check me-1"></i>{{ ticket.fecha_resolucion.strftime('%d/%m/%Y') }}
+                            </small>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <button type="button" class="btn btn-sm btn-outline-primary border-0" title="Ver Detalles" data-bs-toggle="modal" data-bs-target="#modalVerTicket{{ ticket.id }}">
+                                <i class="bi bi-eye fs-5"></i>
+                            </button>
+
+                            {% if ticket.estado in ['Pendiente', 'En Progreso'] %}
+                                <button type="button" class="btn btn-sm btn-outline-warning border-0" title="Editar Ticket" data-bs-toggle="modal" data-bs-target="#modalEditarTicket{{ ticket.id }}">
+                                    <i class="bi bi-pencil-square fs-5"></i>
+                                </button>
+                            {% endif %}
+                            
+                            {% if ticket.estado == 'Pendiente' %}
+                                <form action="{{ url_for('tickets.eliminar_ticket', id_ticket=ticket.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Eliminar Ticket" onclick="return confirm('¿Seguro que deseas borrar este ticket?')">
+                                        <i class="bi bi-trash3 fs-5"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="modalVerTicket{{ ticket.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content border-0 shadow">
+                                <div class="modal-header bg-primary text-white border-0">
+                                    <h5 class="modal-title fw-bold"><i class="bi bi-info-circle me-2"></i>Detalles del Ticket #{{ ticket.id }}</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-start bg-light">
+                                    <h5 class="fw-bold text-dark mb-3">{{ ticket.titulo }}</h5>
+                                    <p class="mb-1"><i class="bi bi-building text-muted me-2"></i><strong>Departamento:</strong> {{ ticket.departamento }}</p>
+                                    <p class="mb-1"><i class="bi bi-activity text-muted me-2"></i><strong>Estado:</strong> 
+                                        {% if ticket.estado == 'Pendiente' %}
+                                            <span class="badge bg-danger">Pendiente</span>
+                                        {% elif ticket.estado == 'En Progreso' %}
+                                            <span class="badge bg-warning text-dark">En Progreso</span>
+                                        {% else %}
+                                            <span class="badge bg-success">Resuelto</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="mb-3"><i class="bi bi-clock-history text-muted me-2"></i><strong>Reportado:</strong> {{ ticket.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</p>
+                                    
+                                    {% if ticket.estado == 'En Progreso' or ticket.estado == 'Resuelto' %}
+                                        <div class="alert alert-info border-0 shadow-sm p-3 mb-3">
+                                            <p class="mb-1"><i class="bi bi-person-badge me-2"></i><strong>Técnico Asignado:</strong> 
+                                                {% if ticket.tecnico_asignado %}
+                                                    {{ ticket.tecnico_asignado }}
+                                                {% else %}
+                                                    <span class="text-muted">Desconocido</span>
+                                                {% endif %}
+                                            </p>
+                                            {% if ticket.estado == 'Resuelto' and ticket.fecha_resolucion %}
+                                                <p class="mb-0"><i class="bi bi-check2-all me-2"></i><strong>Resuelto el:</strong> {{ ticket.fecha_resolucion.strftime('%d/%m/%Y %H:%M') }}</p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <hr class="text-muted">
+                                    <p class="fw-bold mb-2"><i class="bi bi-card-text me-2"></i>Descripción:</p>
+                                    <div class="bg-white p-3 rounded border text-muted" style="white-space: pre-wrap; font-size: 0.95rem;">{{ ticket.descripcion }}</div>
+                                </div>
+                                <div class="modal-footer border-0">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="modalEditarTicket{{ ticket.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content border-0 shadow">
+                                <div class="modal-header bg-warning text-dark border-0">
+                                    <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Ticket #{{ ticket.id }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{{ url_for('tickets.editar_ticket', id_ticket=ticket.id) }}" method="POST">
+                                    <div class="modal-body text-start bg-light">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold text-secondary">Título del problema</label>
+                                            <input type="text" class="form-control" name="titulo" value="{{ ticket.titulo }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold text-secondary">Departamento afectado</label>
+                                            <select class="form-select" name="id_departamento" required>
+                                                {% for depto in departamentos %}
+                                                    <option value="{{ depto.id }}" {% if depto.id == ticket.id_departamento %}selected{% endif %}>{{ depto.nombre }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold text-secondary">Descripción detallada</label>
+                                            <textarea class="form-control" name="descripcion" rows="4" required>{{ ticket.descripcion }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer border-0">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-warning fw-bold text-dark"><i class="bi bi-save me-1"></i> Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox fs-1 d-block mb-3 opacity-50"></i>
+                            <h5>Aún no has creado ningún ticket</h5>
+                            <p>Cuando tengas algún problema, haz clic en el botón "Nuevo Ticket" para solicitar ayuda.</p>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearTicket" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>Reportar Nuevo Problema</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('tickets.crear_ticket') }}" method="POST">
+                <div class="modal-body text-start bg-light">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Título del problema</label>
+                        <input type="text" class="form-control" name="titulo" placeholder="Ej: La impresora no funciona" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Departamento afectado</label>
+                        <select class="form-select" name="id_departamento" required>
+                            <option value="" disabled selected>Selecciona un área...</option>
+                            {% for depto in departamentos %}
+                                <option value="{{ depto.id }}">{{ depto.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Descripción detallada</label>
+                        <textarea class="form-control" name="descripcion" rows="4" placeholder="Explica con el mayor detalle posible lo que ocurre..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success fw-bold"><i class="bi bi-send me-1"></i> Enviar Ticket</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

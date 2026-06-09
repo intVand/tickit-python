@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Tickit - Soporte Técnico Inteligente{% endblock %}
+
+{% block content %}
+<div class="row align-items-center py-5 my-5 bg-white rounded-4 shadow-sm border-start border-primary border-5">
+    <div class="col-lg-7 p-5">
+        <h1 class="display-4 fw-bold text-dark mb-3">
+            Gestión de incidencias <span class="text-primary">sin complicaciones.</span>
+        </h1>
+        <p class="lead text-muted mb-4">
+            Optimiza el soporte técnico de tu empresa con <strong>Tickit</strong>. Centraliza reportes, gestiona departamentos y resuelve tickets de manera eficiente en una plataforma diseñada para la productividad.
+        </p>
+        
+        <div class="d-grid gap-3 d-md-flex justify-content-md-start">
+            {% if 'usuario_id' in session %}
+                <a href="{{ url_for('tickets.panel_control') }}" class="btn btn-primary btn-lg px-4 fw-bold shadow-sm">
+                    <i class="bi bi-speedometer2 me-2"></i>Ir a mi Panel
+                </a>
+            {% else %}
+                <a href="{{ url_for('usuario.login') }}" class="btn btn-primary btn-lg px-4 fw-bold shadow-sm">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Acceder al Sistema
+                </a>
+                <a href="{{ url_for('usuario.registro') }}" class="btn btn-outline-secondary btn-lg px-4">
+                    Crear cuenta
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5 text-center d-none d-lg-block">
+        <i class="bi bi-headset text-primary opacity-25" style="font-size: 15rem;"></i>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-3">
+            <div class="card-body">
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                    <i class="bi bi-ticket-perforated fs-2 text-primary"></i>
+                </div>
+                <h5 class="fw-bold">Flujo de Tickets</h5>
+                <p class="text-muted small">Implementación completa de CRUD para la gestión de incidencias, departamentos y técnicos asignados.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-3">
+            <div class="card-body">
+                <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                    <i class="bi bi-shield-lock fs-2 text-danger"></i>
+                </div>
+                <h5 class="fw-bold">Seguridad Avanzada</h5>
+                <p class="text-muted small">Autenticación robusta con cifrado de contraseñas, sesiones seguras y control de accesos basado en roles (Admin/User).</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-3">
+            <div class="card-body">
+                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                    <i class="bi bi-file-earmark-code fs-2 text-success"></i>
+                </div>
+                <h5 class="fw-bold">Reportes y Auditoría</h5>
+                <p class="text-muted small">Exportación de datos a formatos TXT y JSON, junto a un sistema de logs en tiempo real para auditoría de acciones.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-dark text-white p-5 rounded-4 shadow-lg text-center mb-5">
+    <h3 class="fw-bold">¿Listo para mejorar el soporte técnico?</h3>
+    <p class="text-secondary mb-4">Tickit ofrece una arquitectura limpia basada en Blueprints de Flask y base de datos relacional MySQL.</p>
+    <div class="d-flex justify-content-center gap-3">
+        <span class="badge bg-secondary px-3 py-2"><i class="bi bi-python me-1"></i> Python 3.x</span>
+        <span class="badge bg-secondary px-3 py-2"><i class="bi bi-database me-1"></i> MySQL</span>
+        <span class="badge bg-secondary px-3 py-2"><i class="bi bi-bootstrap me-1"></i> Bootstrap 5</span>
+    </div>
+</div>
+{% endblock %}

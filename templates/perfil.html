@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Tickit - Mi Perfil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-7 col-lg-6">
+        
+        <div class="text-center mb-4">
+            <div class="d-inline-block bg-primary bg-opacity-10 p-4 rounded-circle mb-3">
+                <i class="bi bi-person-bounding-box text-primary display-4"></i>
+            </div>
+            <h2 class="fw-bold text-dark">Mi Perfil</h2>
+            <p class="text-muted">Gestiona tu identidad y seguridad en Tickit</p>
+        </div>
+
+        <div class="card shadow border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-bold mb-4 d-flex align-items-center">
+                    <i class="bi bi-gear-wide-connected me-2 text-primary"></i>Configuración de la Cuenta
+                </h5>
+                
+                <form action="{{ url_for('usuario.perfil') }}" method="POST">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Correo Electrónico</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope-fill"></i></span>
+                            <input type="email" class="form-control bg-light text-muted" value="{{ usuario.email }}" readonly title="El correo electrónico no puede cambiarse">
+                        </div>
+                        <small class="text-muted italic">Identificador único de sistema (No modificable)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary">Nombre Completo</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white"><i class="bi bi-person-fill"></i></span>
+                            <input type="text" class="form-control" name="nombre" value="{{ usuario.nombre }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary">Nueva Contraseña</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white"><i class="bi bi-shield-lock-fill"></i></span>
+                            <input type="password" class="form-control" name="contrasenya" placeholder="Dejar en blanco para mantener actual">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">
+                        <i class="bi bi-check2-circle me-1"></i> Actualizar mi Información
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        {% if session['usuario_rol'] != 1 %}
+        <div class="card border-0 shadow-sm bg-danger bg-opacity-10 rounded-4">
+            <div class="card-body p-4">
+                <h5 class="card-title text-danger fw-bold mb-3 d-flex align-items-center">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Zona de Peligro
+                </h5>
+                <p class="text-dark small mb-4">
+                    Al eliminar tu cuenta, todos tus tickets reportados serán borrados. Esta acción es **permanente e irreversible**.
+                </p>
+                <form action="{{ url_for('usuario.eliminar_mi_cuenta') }}" method="POST">
+                    <button type="submit" class="btn btn-outline-danger btn-sm w-100 fw-bold border-2" 
+                            onclick="return confirm('ATENCIÓN: ¿Estás completamente seguro? Se perderán todos tus datos.')">
+                        <i class="bi bi-person-x-fill me-1"></i> Eliminar mi cuenta definitivamente
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center">
+            <span class="badge bg-dark rounded-pill px-3 py-2">
+                <i class="bi bi-shield-check me-1"></i> Modo Administrador Activo
+            </span>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

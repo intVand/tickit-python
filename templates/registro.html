@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Tickit - Registro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center mt-5">
+    <div class="col-md-6 col-lg-5 col-xl-4">
+        
+        <div class="text-center mb-4">
+            <div class="bg-success bg-opacity-10 d-inline-flex p-3 rounded-circle mb-3">
+                <i class="bi bi-person-plus fs-1 text-success"></i>
+            </div>
+            <h2 class="fw-bold text-dark">Crear Cuenta</h2>
+            <p class="text-muted">Únete a la plataforma de soporte de Tickit</p>
+        </div>
+
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-body p-4 p-lg-5">
+                <form action="{{ url_for('usuario.registro') }}" method="POST">
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label fw-bold text-secondary small">NOMBRE COMPLETO</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-person text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="nombre" name="nombre" 
+                                   placeholder="Tu nombre y apellidos" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold text-secondary small">CORREO ELECTRÓNICO</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-envelope text-muted"></i>
+                            </span>
+                            <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" 
+                                   placeholder="ejemplo@empresa.com" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="contrasenya" class="form-label fw-bold text-secondary small">CONTRASEÑA</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-shield-lock text-muted"></i>
+                            </span>
+                            <input type="password" class="form-control border-start-0 ps-0" id="contrasenya" 
+                                   name="contrasenya" placeholder="Mínimo 8 caracteres" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm mb-3">
+                        <i class="bi bi-check-circle me-1"></i> Crear mi cuenta
+                    </button>
+
+                    <div class="text-center">
+                        <a href="{{ url_for('usuario.login') }}" class="text-decoration-none small fw-bold">
+                            ¿Ya tienes cuenta? Inicia sesión aquí
+                        </a>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-footer bg-light border-0 py-3 text-center">
+                <small class="text-muted">
+                    Al registrarte, aceptas las políticas de uso de la plataforma.
+                </small>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

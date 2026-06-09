@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module rutas.tickets</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="rutas.html" class="white">rutas</a>.tickets</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Civanb%5Cdesktop%5Cespecialidad%20python%5Cprogramaci%C3%B3n%20orientada%20a%20objetos%5Cproyecto%203.3%20-%203.4%20-%203.5%5Cproyecto%20final%20poo%202%5Ctickit%5Crutas%5Ctickets.py">c:\users\ivanb\desktop\especialidad python\programación orientada a objetos\proyecto 3.3 - 3.4 - 3.5\proyecto final poo 2\tickit\rutas\tickets.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;de&nbsp;rutas&nbsp;para&nbsp;la&nbsp;gestión&nbsp;de&nbsp;tickets&nbsp;de&nbsp;soporte&nbsp;técnico.<br>
+&nbsp;<br>
+En&nbsp;este&nbsp;fichero&nbsp;he&nbsp;agrupado&nbsp;todas&nbsp;las&nbsp;rutas&nbsp;asociadas&nbsp;al&nbsp;panel&nbsp;de&nbsp;control&nbsp;<br>
+del&nbsp;usuario&nbsp;común.&nbsp;Se&nbsp;implementan&nbsp;las&nbsp;operaciones&nbsp;principales&nbsp;del&nbsp;CRUD&nbsp;<br>
+para&nbsp;las&nbsp;incidencias,&nbsp;así&nbsp;como&nbsp;los&nbsp;motores&nbsp;de&nbsp;exportación&nbsp;en&nbsp;formatos&nbsp;planos.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-crear_ticket"><strong>crear_ticket</strong></a>()</dt><dd><span class="code">Se&nbsp;procesa&nbsp;el&nbsp;formulario&nbsp;enviado&nbsp;para&nbsp;registrar&nbsp;una&nbsp;nueva&nbsp;incidencia.<br>
+&nbsp;<br>
+Se&nbsp;capturan&nbsp;los&nbsp;parámetros&nbsp;del&nbsp;formulario,&nbsp;se&nbsp;descartan&nbsp;entradas&nbsp;vacías&nbsp;<br>
+mediante&nbsp;el&nbsp;módulo&nbsp;de&nbsp;validaciones&nbsp;y&nbsp;se&nbsp;efectúa&nbsp;la&nbsp;inserción&nbsp;SQL.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;de&nbsp;control&nbsp;con&nbsp;el&nbsp;mensaje&nbsp;de&nbsp;estado&nbsp;del&nbsp;proceso.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-editar_ticket"><strong>editar_ticket</strong></a>(id_ticket)</dt><dd><span class="code">Se&nbsp;procesan&nbsp;los&nbsp;cambios&nbsp;de&nbsp;una&nbsp;incidencia&nbsp;existente&nbsp;del&nbsp;usuario.<br>
+&nbsp;<br>
+Se&nbsp;extraen&nbsp;los&nbsp;nuevos&nbsp;textos&nbsp;ingresados,&nbsp;se&nbsp;validan&nbsp;contra&nbsp;nulos&nbsp;y&nbsp;<br>
+se&nbsp;actualizan&nbsp;en&nbsp;el&nbsp;servidor&nbsp;si&nbsp;los&nbsp;permisos&nbsp;del&nbsp;ticket&nbsp;son&nbsp;correctos.<br>
+&nbsp;<br>
+:param&nbsp;id_ticket:&nbsp;El&nbsp;identificador&nbsp;del&nbsp;ticket.<br>
+:type&nbsp;id_ticket:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;de&nbsp;vuelta&nbsp;al&nbsp;panel&nbsp;con&nbsp;el&nbsp;mensaje&nbsp;flash&nbsp;correspondiente.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-eliminar_ticket"><strong>eliminar_ticket</strong></a>(id_ticket)</dt><dd><span class="code">Se&nbsp;ejecuta&nbsp;el&nbsp;borrado&nbsp;físico&nbsp;de&nbsp;un&nbsp;ticket&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+&nbsp;<br>
+Se&nbsp;comprueba&nbsp;previamente&nbsp;que&nbsp;el&nbsp;solicitante&nbsp;sea&nbsp;el&nbsp;propietario&nbsp;del&nbsp;ticket<br>
+y&nbsp;que&nbsp;la&nbsp;incidencia&nbsp;no&nbsp;haya&nbsp;cambiado&nbsp;a&nbsp;un&nbsp;estado&nbsp;activo&nbsp;o&nbsp;cerrado.<br>
+&nbsp;<br>
+:param&nbsp;id_ticket:&nbsp;El&nbsp;identificador&nbsp;único&nbsp;del&nbsp;ticket&nbsp;a&nbsp;eliminar.<br>
+:type&nbsp;id_ticket:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;de&nbsp;control&nbsp;con&nbsp;confirmación&nbsp;de&nbsp;la&nbsp;eliminación.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-exportar_mis_tickets_json"><strong>exportar_mis_tickets_json</strong></a>()</dt><dd><span class="code">Se&nbsp;exporta&nbsp;el&nbsp;historial&nbsp;completo&nbsp;de&nbsp;incidencias&nbsp;en&nbsp;un&nbsp;estándar&nbsp;legible&nbsp;JSON.<br>
+&nbsp;<br>
+Se&nbsp;aplica&nbsp;una&nbsp;rutina&nbsp;interna&nbsp;de&nbsp;serialización&nbsp;para&nbsp;los&nbsp;campos&nbsp;de&nbsp;tipo&nbsp;datetime&nbsp;<br>
+que&nbsp;MySQL&nbsp;devuelve&nbsp;y&nbsp;que&nbsp;el&nbsp;módulo&nbsp;nativo&nbsp;json&nbsp;de&nbsp;Python&nbsp;no&nbsp;puede&nbsp;procesar&nbsp;directamente.<br>
+&nbsp;<br>
+:return:&nbsp;Respuesta&nbsp;HTTP&nbsp;con&nbsp;cabecera&nbsp;application/json&nbsp;adaptada&nbsp;como&nbsp;attachment.<br>
+:rtype:&nbsp;flask.Response</span></dd></dl>
+ <dl><dt><a name="-exportar_mis_tickets_txt"><strong>exportar_mis_tickets_txt</strong></a>()</dt><dd><span class="code">Se&nbsp;genera&nbsp;dinámicamente&nbsp;un&nbsp;archivo&nbsp;de&nbsp;texto&nbsp;plano&nbsp;descargable&nbsp;(.txt).<br>
+&nbsp;<br>
+Se&nbsp;recogen&nbsp;los&nbsp;datos&nbsp;actuales&nbsp;del&nbsp;usuario,&nbsp;se&nbsp;parsean&nbsp;línea&nbsp;a&nbsp;línea&nbsp;<br>
+en&nbsp;formato&nbsp;legible&nbsp;y&nbsp;se&nbsp;devuelven&nbsp;encapsulados&nbsp;en&nbsp;un&nbsp;flujo&nbsp;HTTP&nbsp;de&nbsp;descarga.<br>
+&nbsp;<br>
+:return:&nbsp;Objeto&nbsp;Response&nbsp;de&nbsp;Flask&nbsp;configurado&nbsp;como&nbsp;descarga&nbsp;de&nbsp;texto&nbsp;adjunto.<br>
+:rtype:&nbsp;flask.Response</span></dd></dl>
+ <dl><dt><a name="-panel_control"><strong>panel_control</strong></a>()</dt><dd><span class="code">Se&nbsp;renderiza&nbsp;el&nbsp;panel&nbsp;de&nbsp;control&nbsp;principal&nbsp;del&nbsp;usuario&nbsp;autenticado.<br>
+&nbsp;<br>
+Se&nbsp;extraen&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;tanto&nbsp;los&nbsp;departamentos&nbsp;disponibles&nbsp;<br>
+como&nbsp;el&nbsp;historial&nbsp;de&nbsp;incidencias&nbsp;pertenecientes&nbsp;única&nbsp;y&nbsp;exclusivamente&nbsp;<br>
+al&nbsp;usuario&nbsp;que&nbsp;ha&nbsp;iniciado&nbsp;sesión.<br>
+&nbsp;<br>
+:return:&nbsp;Plantilla&nbsp;HTML&nbsp;con&nbsp;las&nbsp;tablas&nbsp;y&nbsp;formularios&nbsp;de&nbsp;tickets&nbsp;actualizados.<br>
+:rtype:&nbsp;str</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>tickets_bp</strong> = &lt;Blueprint 'tickets'&gt;</td></tr></table>
+</body></html>

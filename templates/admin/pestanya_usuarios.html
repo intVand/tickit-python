@@ -1,0 +1,172 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-primary fw-bold m-0">
+        <i class="bi bi-people-fill me-2"></i>Gestión de Usuarios y Roles
+    </h4>
+    <button type="button" class="btn btn-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
+        <i class="bi bi-person-plus-fill me-1"></i> Nuevo Usuario
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th class="ps-3">ID</th>
+                <th>Nombre y Correo</th>
+                <th>Rol</th>
+                <th class="text-end pe-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usu in usuarios %}
+            <tr>
+                <td class="ps-3 text-secondary fw-bold">#{{ usu.id }}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3 text-primary">
+                            <i class="bi bi-person fs-5"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-dark">{{ usu.nombre }}</span>
+                            <small class="text-muted"><i class="bi bi-envelope me-1"></i>{{ usu.email }}</small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    {% if usu.id_rol == 1 %}
+                        <span class="badge bg-danger rounded-pill shadow-sm">
+                            <i class="bi bi-shield-lock me-1"></i>Administrador
+                        </span>
+                    {% else %}
+                        <span class="badge bg-secondary rounded-pill shadow-sm">
+                            <i class="bi bi-person me-1"></i>Usuario
+                        </span>
+                    {% endif %}
+                </td>
+                <td class="text-end pe-3">
+                    <button type="button" class="btn btn-sm btn-outline-warning border-0" title="Editar Usuario" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario{{ usu.id }}">
+                        <i class="bi bi-pencil-square fs-5"></i>
+                    </button>
+                    
+                    {% if usu.id == session['usuario_id'] %}
+                        <button class="btn btn-sm btn-outline-secondary border-0" disabled title="No puedes borrar tu propia cuenta activa">
+                            <i class="bi bi-trash3 fs-5 opacity-50"></i>
+                        </button>
+                    {% else %}
+                        <form action="{{ url_for('administrador.eliminar_usuario', id_usuario=usu.id) }}" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Eliminar Usuario" onclick="return confirm('¿Estás seguro de eliminar a {{ usu.nombre }}? Sus tickets también se borrarán.')">
+                                <i class="bi bi-trash3 fs-5"></i>
+                            </button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <div class="modal fade" id="modalEditarUsuario{{ usu.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content border-0 shadow">
+                  <div class="modal-header bg-warning text-dark border-0">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-gear me-2"></i>Editar Perfil de Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form action="{{ url_for('administrador.editar_usuario', id_usuario=usu.id) }}" method="POST">
+                      <div class="modal-body text-start bg-light">
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-secondary">Nombre Completo</label>
+                              <div class="input-group">
+                                  <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                                  <input type="text" class="form-control" name="nombre" value="{{ usu.nombre }}" required>
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-secondary">Correo Electrónico</label>
+                              <div class="input-group">
+                                  <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
+                                  <input type="email" class="form-control" name="email" value="{{ usu.email }}" required>
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-secondary">Rol del Sistema</label>
+                              <div class="input-group">
+                                  <span class="input-group-text bg-white"><i class="bi bi-shield-check"></i></span>
+                                  <select class="form-select" name="id_rol" required>
+                                      {% for rol in roles %}
+                                          <option value="{{ rol.id }}" {% if rol.id == usu.id_rol %}selected{% endif %}>
+                                              {{ rol.nombre_rol }}
+                                          </option>
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold text-secondary">Actualizar Contraseña</label>
+                              <div class="input-group">
+                                  <span class="input-group-text bg-white"><i class="bi bi-key"></i></span>
+                                  <input type="password" class="form-control" name="contrasenya" placeholder="Dejar vacío para mantener actual">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning fw-bold text-dark"><i class="bi bi-save me-1"></i> Guardar Cambios</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalCrearUsuario" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-success text-white border-0">
+        <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Registrar Nuevo Acceso</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ url_for('administrador.crear_usuario') }}" method="POST">
+          <div class="modal-body text-start bg-light">
+              <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary">Nombre Completo</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                      <input type="text" class="form-control" name="nombre" placeholder="Ej: Ana García" required>
+                  </div>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary">Correo Electrónico</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
+                      <input type="email" class="form-control" name="email" placeholder="correo@ejemplo.com" required>
+                  </div>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary">Rol Asignado</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-shield-check"></i></span>
+                      <select class="form-select" name="id_rol" required>
+                          <option value="" disabled selected>Selecciona un rol...</option>
+                          {% for rol in roles %}
+                              <option value="{{ rol.id }}">{{ rol.nombre_rol }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary">Contraseña Inicial</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-key"></i></span>
+                      <input type="password" class="form-control" name="contrasenya" required>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success fw-bold"><i class="bi bi-check-lg me-1"></i> Crear Usuario</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>

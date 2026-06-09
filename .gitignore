@@ -1,0 +1,23 @@
+# Entornos virtuales locales
+venv/
+env/
+ENV/
+
+# Archivos de caché de Python
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Temporales de Pytest
+.pytest_cache/
+.pytest/
+
+# Logs e Historiales locales (Tu sistema de auditoría)
+*.log
+auditoria.log
+
+# Configuraciones de IDEs (VSCode, PyCharm)
+.vscode/
+.idea/
+.DS_Store

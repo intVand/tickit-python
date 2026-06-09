@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module rutas.administrador</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="rutas.html" class="white">rutas</a>.administrador</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Civanb%5Cdesktop%5Cespecialidad%20python%5Cprogramaci%C3%B3n%20orientada%20a%20objetos%5Cproyecto%203.3%20-%203.4%20-%203.5%5Cproyecto%20final%20poo%202%5Ctickit%5Crutas%5Cadministrador.py">c:\users\ivanb\desktop\especialidad python\programación orientada a objetos\proyecto 3.3 - 3.4 - 3.5\proyecto final poo 2\tickit\rutas\administrador.py</a></td></tr></table>
+    <p><span class="code">Módulo&nbsp;de&nbsp;administración&nbsp;global&nbsp;y&nbsp;supervisión&nbsp;del&nbsp;sistema&nbsp;Tickit.<br>
+&nbsp;<br>
+En&nbsp;este&nbsp;fichero&nbsp;he&nbsp;concentrado&nbsp;todo&nbsp;el&nbsp;núcleo&nbsp;de&nbsp;control&nbsp;exclusivo&nbsp;para&nbsp;el&nbsp;perfil&nbsp;<br>
+de&nbsp;administrador&nbsp;(rol&nbsp;1).&nbsp;Maneja&nbsp;los&nbsp;flujos&nbsp;avanzados&nbsp;de&nbsp;CRUD&nbsp;para&nbsp;tickets&nbsp;cruzados,<br>
+usuarios,&nbsp;departamentos&nbsp;relacionales,&nbsp;exportaciones&nbsp;completas&nbsp;y&nbsp;lectura&nbsp;del&nbsp;archivo&nbsp;de&nbsp;logs.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="pymysql.html">pymysql</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-actualizar_estado_ticket"><strong>actualizar_estado_ticket</strong></a>(id_ticket)</dt><dd><span class="code">Se&nbsp;procesa&nbsp;el&nbsp;cambio&nbsp;de&nbsp;estado&nbsp;rápido&nbsp;desde&nbsp;las&nbsp;opciones&nbsp;de&nbsp;la&nbsp;tabla.<br>
+&nbsp;<br>
+Actualiza&nbsp;el&nbsp;estado,&nbsp;conmuta&nbsp;la&nbsp;fecha&nbsp;de&nbsp;resolución&nbsp;según&nbsp;corresponda&nbsp;<br>
+y&nbsp;manipula&nbsp;la&nbsp;inserción/borrado&nbsp;en&nbsp;la&nbsp;tabla&nbsp;intermedia&nbsp;de&nbsp;asignaciones.<br>
+&nbsp;<br>
+:param&nbsp;id_ticket:&nbsp;Clave&nbsp;primaria&nbsp;del&nbsp;ticket&nbsp;a&nbsp;actualizar.<br>
+:type&nbsp;id_ticket:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;inmediata&nbsp;al&nbsp;panel&nbsp;de&nbsp;administrador.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-crear_departamento"><strong>crear_departamento</strong></a>()</dt><dd><span class="code">Se&nbsp;registra&nbsp;un&nbsp;nuevo&nbsp;departamento&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;administrativo.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-crear_usuario"><strong>crear_usuario</strong></a>()</dt><dd><span class="code">Se&nbsp;registra&nbsp;de&nbsp;forma&nbsp;directa&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;o&nbsp;administrador&nbsp;en&nbsp;el&nbsp;sistema.<br>
+&nbsp;<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;de&nbsp;administración.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-editar_departamento"><strong>editar_departamento</strong></a>(id_departamento)</dt><dd><span class="code">Se&nbsp;modifican&nbsp;las&nbsp;propiedades&nbsp;de&nbsp;un&nbsp;departamento&nbsp;existente.<br>
+&nbsp;<br>
+:param&nbsp;id_departamento:&nbsp;Clave&nbsp;única&nbsp;del&nbsp;departamento.<br>
+:type&nbsp;id_departamento:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;con&nbsp;confirmación.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-editar_ticket_admin"><strong>editar_ticket_admin</strong></a>(id_ticket)</dt><dd><span class="code">Se&nbsp;ejecuta&nbsp;el&nbsp;formulario&nbsp;de&nbsp;edición&nbsp;avanzada&nbsp;y&nbsp;reasignación&nbsp;de&nbsp;un&nbsp;ticket.<br>
+&nbsp;<br>
+:param&nbsp;id_ticket:&nbsp;Identificador&nbsp;único&nbsp;de&nbsp;la&nbsp;incidencia.<br>
+:type&nbsp;id_ticket:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;con&nbsp;mensaje&nbsp;flash&nbsp;informativo.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-editar_usuario"><strong>editar_usuario</strong></a>(id_usuario)</dt><dd><span class="code">Se&nbsp;modifican&nbsp;los&nbsp;privilegios,&nbsp;credenciales&nbsp;e&nbsp;identidad&nbsp;de&nbsp;un&nbsp;perfil&nbsp;de&nbsp;usuario.<br>
+&nbsp;<br>
+:param&nbsp;id_usuario:&nbsp;El&nbsp;ID&nbsp;del&nbsp;usuario&nbsp;que&nbsp;se&nbsp;va&nbsp;a&nbsp;editar.<br>
+:type&nbsp;id_usuario:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;de&nbsp;vuelta&nbsp;al&nbsp;panel&nbsp;de&nbsp;administrador.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-eliminar_departamento"><strong>eliminar_departamento</strong></a>(id_departamento)</dt><dd><span class="code">Se&nbsp;procesa&nbsp;la&nbsp;baja&nbsp;de&nbsp;un&nbsp;departamento&nbsp;del&nbsp;sistema&nbsp;de&nbsp;forma&nbsp;segura.<br>
+&nbsp;<br>
+He&nbsp;resuelto&nbsp;la&nbsp;restricción&nbsp;de&nbsp;integridad&nbsp;foránea&nbsp;reasignando&nbsp;automáticamente<br>
+todos&nbsp;los&nbsp;tickets&nbsp;huérfanos&nbsp;a&nbsp;un&nbsp;departamento&nbsp;neutro&nbsp;'Sin&nbsp;asignar'.<br>
+&nbsp;<br>
+:param&nbsp;id_departamento:&nbsp;Clave&nbsp;a&nbsp;remover&nbsp;del&nbsp;sistema.<br>
+:type&nbsp;id_departamento:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;del&nbsp;administrador.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-eliminar_ticket_admin"><strong>eliminar_ticket_admin</strong></a>(id_ticket)</dt><dd><span class="code">Se&nbsp;elimina&nbsp;un&nbsp;ticket&nbsp;del&nbsp;sistema&nbsp;de&nbsp;forma&nbsp;irreversible.<br>
+&nbsp;<br>
+:param&nbsp;id_ticket:&nbsp;El&nbsp;identificador&nbsp;único&nbsp;del&nbsp;ticket.<br>
+:type&nbsp;id_ticket:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;del&nbsp;administrador.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-eliminar_usuario"><strong>eliminar_usuario</strong></a>(id_usuario)</dt><dd><span class="code">Se&nbsp;remueve&nbsp;un&nbsp;usuario&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;aplicando&nbsp;reglas&nbsp;de&nbsp;seguridad.<br>
+&nbsp;<br>
+:param&nbsp;id_usuario:&nbsp;El&nbsp;ID&nbsp;del&nbsp;usuario&nbsp;seleccionado.<br>
+:type&nbsp;id_usuario:&nbsp;int<br>
+:return:&nbsp;Redirección&nbsp;al&nbsp;panel&nbsp;con&nbsp;el&nbsp;resultado&nbsp;flash.<br>
+:rtype:&nbsp;werkzeug.wrappers.Response</span></dd></dl>
+ <dl><dt><a name="-exportar_tickets_json"><strong>exportar_tickets_json</strong></a>()</dt><dd><span class="code">Se&nbsp;exporta&nbsp;el&nbsp;historial&nbsp;completo&nbsp;de&nbsp;incidencias&nbsp;en&nbsp;un&nbsp;estándar&nbsp;legible&nbsp;JSON.<br>
+&nbsp;<br>
+Se&nbsp;aplica&nbsp;una&nbsp;rutina&nbsp;interna&nbsp;de&nbsp;serialización&nbsp;para&nbsp;los&nbsp;campos&nbsp;de&nbsp;tipo&nbsp;datetime&nbsp;<br>
+que&nbsp;MySQL&nbsp;devuelve&nbsp;y&nbsp;que&nbsp;el&nbsp;módulo&nbsp;nativo&nbsp;json&nbsp;de&nbsp;Python&nbsp;no&nbsp;puede&nbsp;procesar&nbsp;directamente.<br>
+&nbsp;<br>
+:return:&nbsp;Respuesta&nbsp;HTTP&nbsp;con&nbsp;cabecera&nbsp;application/json&nbsp;adaptada&nbsp;como&nbsp;attachment.<br>
+:rtype:&nbsp;flask.Response</span></dd></dl>
+ <dl><dt><a name="-exportar_tickets_txt"><strong>exportar_tickets_txt</strong></a>()</dt><dd><span class="code">Se&nbsp;genera&nbsp;y&nbsp;descarga&nbsp;un&nbsp;informe&nbsp;textual&nbsp;de&nbsp;auditoría&nbsp;total&nbsp;de&nbsp;tickets.<br>
+&nbsp;<br>
+:return:&nbsp;Objeto&nbsp;Response&nbsp;de&nbsp;Flask&nbsp;configurado&nbsp;como&nbsp;descarga&nbsp;de&nbsp;texto&nbsp;adjunto.<br>
+:rtype:&nbsp;flask.Response</span></dd></dl>
+ <dl><dt><a name="-panel_administrador"><strong>panel_administrador</strong></a>()</dt><dd><span class="code">Se&nbsp;renderiza&nbsp;la&nbsp;interfaz&nbsp;del&nbsp;centro&nbsp;de&nbsp;control&nbsp;del&nbsp;Administrador.<br>
+&nbsp;<br>
+Se&nbsp;verifica&nbsp;rigurosamente&nbsp;el&nbsp;rol&nbsp;de&nbsp;la&nbsp;sesión&nbsp;activa&nbsp;y&nbsp;se&nbsp;realizan&nbsp;múltiples<br>
+consultas&nbsp;SQL&nbsp;concurrentes&nbsp;para&nbsp;poblar&nbsp;las&nbsp;pestañas&nbsp;de&nbsp;control.&nbsp;Además,&nbsp;se&nbsp;<br>
+vuelcan&nbsp;las&nbsp;líneas&nbsp;del&nbsp;fichero&nbsp;de&nbsp;log&nbsp;físico&nbsp;de&nbsp;manera&nbsp;inversa.<br>
+&nbsp;<br>
+:return:&nbsp;Plantilla&nbsp;HTML&nbsp;del&nbsp;panel&nbsp;global&nbsp;inyectada&nbsp;con&nbsp;todas&nbsp;las&nbsp;colecciones&nbsp;de&nbsp;datos.<br>
+:rtype:&nbsp;str</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>administrador_bp</strong> = &lt;Blueprint 'administrador'&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>
