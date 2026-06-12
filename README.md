@@ -6,7 +6,7 @@ Este desarrollo forma parte de mi porfolio personal para demostrar competencias 
 
 ---
 
-## 🚀 Características Principales
+## Características Principales
 
 * **Autenticación y Control de Sesiones:** Login centralizado mediante formularios seguros con persistencia en el servidor a través del objeto `session` de Flask y limpieza total de cookies en el logout.
 * **Seguridad por Roles (RBAC) en Backend:** La seguridad no depende del HTML. Cada controlador valida el rol de la sesión activa directamente en Python:
@@ -18,20 +18,20 @@ Este desarrollo forma parte de mi porfolio personal para demostrar competencias 
 
 ---
 
-## 🛠️ Ecosistema Tecnológico
+## Ecosistema Tecnológico
 
-* **Lenguaje:** Python 3.14.0
-* **Framework Backend:** Flask 3.1.3 (Estructurado de forma limpia mediante *Blueprints*)
-* **Base de Datos:** MySQL / MariaDB (Puerto local de desarrollo: 3308)
-* **Conector BD:** PyMySQL 1.1.3
-* **Gestor de Contraseñas:** Werkzeug 3.1.8 (Hashing asimétrico mediante algoritmo `scrypt`)
-* **Testing:** Pytest 9.0.3 (Pruebas unitarias automatizadas)
-* **Documentación:** Pydoc (Generador automatizado de manuales técnicos en HTML)
-* **Frontend:** HTML5, CSS3, Jinja2 3.1.6 Templates, Bootstrap 5
+* **Lenguaje:** `Python 3.14.0`
+* **Framework Backend:** `Flask 3.1.3` (Estructurado de forma limpia mediante *Blueprints*)
+* **Base de Datos:** `MySQL` / `MariaDB` (Puerto local de desarrollo: 3308)
+* **Conector BD:** `PyMySQL 1.1.3`
+* **Gestor de Contraseñas:** `Werkzeug 3.1.8` (Hashing asimétrico mediante algoritmo `scrypt`)
+* **Testing:** `Pytest 9.0.3` (Pruebas unitarias automatizadas)
+* **Documentación:** `Pydoc` (Generador automatizado de manuales técnicos en HTML)
+* **Frontend:** `HTML5`, `CSS3`, `Jinja2 3.1.6 Templates`, `Bootstrap 5`
 
 ---
 
-## 📊 Módulo de Valor Añadido: Logs de Auditoría
+## Módulo de Valor Añadido: Logs de Auditoría
 
 Para dotar al sistema de herramientas de control reales, se implementó un motor de auditoría persistente (`auditoria.py`). Cada acción crítica (inicios de sesión, creación de incidencias o eliminaciones de registros) se estampa de forma inmutable en un archivo local `auditoria.log` con marcas de tiempo detalladas. 
 
@@ -39,7 +39,7 @@ El panel del administrador incorpora una consola interactiva que lee este ficher
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 ├── rutas/                    # Blueprints modulares (usuario, tickets, administrador)
@@ -57,7 +57,7 @@ El panel del administrador incorpora una consola interactiva que lee este ficher
 
 ---
 
-## 🔧 Instalación y Puesta en Marcha (Desarrollo Local)
+## Instalación y Puesta en Marcha (Desarrollo Local)
 
 ### 1. Clonar el repositorio y preparar el entorno
 
@@ -89,7 +89,7 @@ Navega en tu navegador web a la dirección de escucha local: `http://localhost:5
 
 ---
 
-## 🧪 Calidad de Software y Documentación
+## Calidad de Software y Documentación
 
 ### Ejecución de Tests Automatizados
 La lógica de control de formularios está respaldada por pruebas unitarias que analizan casos normales, strings vacíos y excepciones de tipo. Puedes ejecutar el banco de pruebas con:
@@ -103,7 +103,7 @@ La documentación técnica autogenerada a partir de los Docstrings del código s
 
 ---
 
-## 👥 Credenciales de Acceso para Pruebas
+## Credenciales de Acceso para Pruebas
 
 El volcado de la base de datos incluye dos perfiles preconfigurados para comprobar la escalabilidad de roles de forma inmediata:
 
